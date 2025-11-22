@@ -1,6 +1,63 @@
-# NeatoFood Mobile App
+# NeatoFood - Price Comparison App
 
-Expo React Native frontend for NeatoFood application.
+Multi-page Expo React Native app with Bootstrap-inspired styling for comparing food prices across different locations.
+
+## 📱 App Structure
+
+### 1. **Home Page** (`screens/HomeScreen.js`)
+- Category selector: ☕ Drinks | 🍰 Desserts | 🥪 Sandwiches | 🍿 Snacks
+- "Compare Prices" button
+- Sidebar navigation with Areas, About Us, and Map
+
+### 2. **Comparison Page** (`screens/ComparisonScreen.js`)
+- Title: "Cheapest Places for [Category]"
+- Table displaying: Place Name | Item | Price | Rating | Details button
+- Sorted by price (cheapest first)
+- Back to Home navigation
+
+### 3. **Place Details Page** (`screens/PlaceDetailsScreen.js`)
+- Place name with star rating & review count
+- Full address with location icon
+- Item name & price
+- "Open in Google Maps" button (shows alert - non-functional as requested)
+- "Back to Comparison" button
+
+### 4. **About Us Page** (`screens/AboutUsScreen.js`)
+- Mission statement and app description
+- What we do and how it works
+- Coverage areas information
+- Contact information
+- Step-by-step guide
+
+### 5. **Areas Page** (`screens/AreasScreen.js`)
+- Toggle between University of Leicester and City Centre
+- List of all places in each area with:
+  - Category badges
+  - Specialties
+  - Opening hours
+  - Building/location information
+
+### 6. **Map Page** (`screens/MapScreen.js`)
+- **Left side**: Interactive map showing all locations
+  - University area pins
+  - City centre area pins
+  - Click pins to select places
+- **Right side**: List of all places with key information
+  - Place name and category
+  - Rating with stars
+  - Address
+  - Price range
+  - Specialties
+  - Synced selection with map
+
+## ✨ Key Features
+
+✅ **No Login System** - Direct access to all features
+✅ **Category-based Navigation** - Browse by food type
+✅ **Price Comparison Tables** - Find the best deals
+✅ **Detailed Place Information** - Everything you need to know
+✅ **Bootstrap CSS Styling** - Professional, clean design
+✅ **Backend Integration** - Connects to Spring Boot API with fallback data
 
 ## Prerequisites
 
