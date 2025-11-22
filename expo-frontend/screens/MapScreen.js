@@ -1,16 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
+
+// Dynamically import Leaflet only on web
+let MapContainer, TileLayer, Marker, Popup;
+if (Platform.OS === 'web') {
+  const leaflet = require('react-leaflet');
+  MapContainer = leaflet.MapContainer;
+  TileLayer = leaflet.TileLayer;
+  Marker = leaflet.Marker;
+  Popup = leaflet.Popup;
+}
 
 export default function MapScreen({ navigation }) {
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [mapReady, setMapReady] = useState(false);
+
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      // Import Leaflet CSS
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+      
+      // Fix for default marker icon
+      delete require('leaflet').Icon.Default.prototype._getIconUrl;
+      require('leaflet').Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      });
+      
+      setMapReady(true);
+    }
+  }, []);
 
   const places = [
-    { id: 1, name: 'Campus Coffee Shop', address: '123 University Road, Leicester LE1 7RH', category: 'Café', rating: 4.5, priceRange: '£2-£5', coordinates: { lat: 52.6210, lng: -1.1244 }, specialties: 'Coffee, Pastries, Sandwiches' },
-    { id: 2, name: 'Student Union Cafe', address: 'Percy Gee Building, Leicester LE1 7RH', category: 'Café & Bar', rating: 4.3, priceRange: '£3-£7', coordinates: { lat: 52.6205, lng: -1.1250 }, specialties: 'Drinks, Snacks, Hot Food' },
-    { id: 3, name: 'Library Café', address: 'David Wilson Library, Leicester LE1 7RH', category: 'Café', rating: 4.2, priceRange: '£2-£6', coordinates: { lat: 52.6215, lng: -1.1238 }, specialties: 'Coffee, Study Snacks' },
-    { id: 4, name: 'Sweet Treats Bakery', address: '45 High Street, Leicester LE1 5YN', category: 'Bakery', rating: 4.7, priceRange: '£3-£6', coordinates: { lat: 52.6343, lng: -1.1314 }, specialties: 'Cakes, Pastries' },
-    { id: 5, name: 'Fresh Bites Deli', address: '23 Gallowtree Gate, Leicester LE1 1DA', category: 'Deli', rating: 4.6, priceRange: '£5-£8', coordinates: { lat: 52.6351, lng: -1.1345 }, specialties: 'Sandwiches, Salads' },
-    { id: 6, name: 'Patisserie Le Bon', address: '78 Market Place, Leicester LE1 5GF', category: 'Patisserie', rating: 4.8, priceRange: '£3-£7', coordinates: { lat: 52.6362, lng: -1.1372 }, specialties: 'French Pastries' },
+    // University of Leicester Campus locations
+    { id: 1, name: 'Campus Coffee Shop', address: '123 University Road, Leicester LE1 7RH', category: 'Café', rating: 4.5, priceRange: '£2-£5', coordinates: { lat: 52.6219, lng: -1.1237 }, specialties: 'Coffee, Pastries, Sandwiches' },
+    { id: 2, name: 'Student Union Cafe', address: 'Percy Gee Building, Leicester LE1 7RH', category: 'Café & Bar', rating: 4.3, priceRange: '£3-£7', coordinates: { lat: 52.6203, lng: -1.1246 }, specialties: 'Drinks, Snacks, Hot Food' },
+    { id: 3, name: 'Library Café', address: 'David Wilson Library, Leicester LE1 7RH', category: 'Café', rating: 4.2, priceRange: '£2-£6', coordinates: { lat: 52.6226, lng: -1.1243 }, specialties: 'Coffee, Study Snacks' },
+    // Leicester City Centre locations
+    { id: 4, name: 'Sweet Treats Bakery', address: '45 High Street, Leicester LE1 5YN', category: 'Bakery', rating: 4.7, priceRange: '£3-£6', coordinates: { lat: 52.6353, lng: -1.1329 }, specialties: 'Cakes, Pastries' },
+    { id: 5, name: 'Fresh Bites Deli', address: '23 Gallowtree Gate, Leicester LE1 1DA', category: 'Deli', rating: 4.6, priceRange: '£5-£8', coordinates: { lat: 52.6364, lng: -1.1376 }, specialties: 'Sandwiches, Salads' },
+    { id: 6, name: 'Patisserie Le Bon', address: '78 Market Place, Leicester LE1 5GF', category: 'Patisserie', rating: 4.8, priceRange: '£3-£7', coordinates: { lat: 52.6368, lng: -1.1398 }, specialties: 'French Pastries' },
   ];
 
   const renderStars = (rating) => {
@@ -27,7 +60,7 @@ export default function MapScreen({ navigation }) {
     return stars.join('');
   };
 
-  if (Platform.OS === 'web') {
+  if (Platform.OS === 'web' && mapReady) {
     return (
       <div style={webStyles.container}>
         <div style={webStyles.sidebar}>
@@ -45,54 +78,49 @@ export default function MapScreen({ navigation }) {
         
         <div style={webStyles.mainContent}>
           <div style={webStyles.splitContainer}>
-            {/* Map Section */}
+            {/* Real Interactive Map Section */}
             <div style={webStyles.mapSection}>
               <h2 style={webStyles.mapTitle}>Leicester Food Map</h2>
               <div style={webStyles.mapContainer}>
-                <div style={webStyles.mapPlaceholder}>
-                  <div style={webStyles.mapOverlay}>
-                    <p style={webStyles.mapText}>🗺️ Interactive Map</p>
-                    <p style={webStyles.mapSubtext}>University of Leicester & City Centre</p>
-                  </div>
-                  
-                  {/* University Area Pins */}
-                  <div style={{...webStyles.mapArea, top: '25%', left: '30%'}}>
-                    <h4 style={webStyles.areaLabel}>University Campus</h4>
-                    {places.slice(0, 3).map((place, index) => (
-                      <button 
-                        key={place.id}
-                        style={{
-                          ...webStyles.mapPin,
-                          top: `${index * 40}px`,
-                          left: `${index * 30}px`,
-                          ...(selectedPlace?.id === place.id ? webStyles.mapPinActive : {})
-                        }}
-                        onClick={() => setSelectedPlace(place)}
-                      >
-                        📍
-                      </button>
-                    ))}
-                  </div>
-                  
-                  {/* City Centre Pins */}
-                  <div style={{...webStyles.mapArea, top: '60%', left: '55%'}}>
-                    <h4 style={webStyles.areaLabel}>City Centre</h4>
-                    {places.slice(3, 6).map((place, index) => (
-                      <button 
-                        key={place.id}
-                        style={{
-                          ...webStyles.mapPin,
-                          top: `${index * 35}px`,
-                          left: `${index * 25}px`,
-                          ...(selectedPlace?.id === place.id ? webStyles.mapPinActive : {})
-                        }}
-                        onClick={() => setSelectedPlace(place)}
-                      >
-                        📍
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <MapContainer 
+                  center={[52.6275, -1.1280]} 
+                  zoom={13} 
+                  style={{ height: '100%', width: '100%', borderRadius: '16px' }}
+                >
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  {places.map((place) => (
+                    <Marker 
+                      key={place.id}
+                      position={[place.coordinates.lat, place.coordinates.lng]}
+                      eventHandlers={{
+                        click: () => setSelectedPlace(place)
+                      }}
+                    >
+                      <Popup>
+                        <div style={{ minWidth: '200px' }}>
+                          <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 'bold', color: '#2a9d8f' }}>
+                            {place.name}
+                          </h3>
+                          <p style={{ margin: '4px 0', fontSize: '13px' }}>
+                            <strong>{place.category}</strong>
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '13px' }}>
+                            ⭐ {place.rating} • {place.priceRange}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '12px', color: '#666' }}>
+                            {place.specialties}
+                          </p>
+                          <p style={{ margin: '8px 0 4px 0', fontSize: '11px', color: '#888' }}>
+                            {place.address}
+                          </p>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  ))}
+                </MapContainer>
               </div>
             </div>
             
