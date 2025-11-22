@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // Change this to your backend URL
-// For Android emulator: http://10.0.2.2:8000
-// For iOS simulator: http://localhost:8000
-// For physical device: http://YOUR_COMPUTER_IP:8000
-const API_BASE_URL = 'http://localhost:8000/api';
+// For Android emulator: http://10.0.2.2:8080
+// For iOS simulator: http://localhost:8080
+// For physical device: http://YOUR_COMPUTER_IP:8080
+const API_BASE_URL = 'http://localhost:8080';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

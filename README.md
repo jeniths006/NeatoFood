@@ -1,6 +1,6 @@
 # NeatoFood
 
-A multi-stack food price comparison application with three backend/frontend options.
+A food price comparison application with Spring Boot backend and Expo React Native frontend.
 
 ## 🎯 Project Overview
 
@@ -8,18 +8,16 @@ Develop a webapp to compare food prices in and around town.
 
 ## 🏗️ Architecture
 
-This repository contains three independent implementations:
+This repository contains:
 
-1. **Spring Boot Backend** (Java/Gradle) - Original implementation
-2. **Django Backend** (Python) - REST API with Django REST Framework
-3. **Expo Frontend** (React Native) - Mobile application
+1. **Spring Boot Backend** (Java/Gradle) - REST API server
+2. **Expo Frontend** (React Native) - Cross-platform mobile application
 
 ## 📁 Project Structure
 
 ```
 NeatoFood/
 ├── src/                    # Spring Boot application
-├── django-backend/         # Django REST API
 ├── expo-frontend/          # Expo React Native app
 ├── build.gradle           # Spring Boot build config
 ├── .gitignore            # Comprehensive ignore file
@@ -31,8 +29,7 @@ NeatoFood/
 ### Prerequisites
 
 - **For Spring Boot**: Java 17+, Gradle
-- **For Django**: Python 3.8+, pip
-- **For Expo**: Node.js 16+, npm, Expo CLI
+- **For Expo**: Node.js 16+, npm, Expo CLI, Watchman (macOS)
 
 ### Running Spring Boot Backend
 
@@ -41,27 +38,6 @@ NeatoFood/
 ./gradlew bootRun
 
 # The application will start on http://localhost:8080
-```
-
-### Running Django Backend
-
-```bash
-cd django-backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run migrations
-python manage.py migrate
-
-# Start server
-python manage.py runserver 8000
-
-# API available at http://localhost:8000/api/
 ```
 
 ### Running Expo Frontend
@@ -73,9 +49,9 @@ cd expo-frontend
 npm install
 
 # Update API URL in api/client.js for your environment
-# - Android emulator: http://10.0.2.2:8000
-# - iOS simulator: http://localhost:8000
-# - Physical device: http://YOUR_COMPUTER_IP:8000
+# - Android emulator: http://10.0.2.2:8080
+# - iOS simulator: http://localhost:8080
+# - Physical device: http://YOUR_COMPUTER_IP:8080
 
 # Start Expo
 npm start
@@ -85,32 +61,28 @@ npm start
 
 ## 🔧 Configuration
 
-### Django Backend
+### Spring Boot Backend
 
-1. Copy `.env.example` to `.env` in `django-backend/`
-2. Update environment variables as needed
-3. Configure database settings in `settings.py`
+Configure application properties in `src/main/resources/application.properties`
 
 ### Expo Frontend
 
 1. Edit `expo-frontend/api/client.js`
-2. Update `API_BASE_URL` to point to your Django backend
+2. Update `API_BASE_URL` to point to your Spring Boot backend (default: `http://localhost:8080`)
 
 ## 📚 API Documentation
 
-### Django Endpoints
+### Spring Boot Endpoints
 
-- `GET /api/health/` - Health check endpoint
-
-(Add more endpoints as you develop)
+- Add your API endpoints here as you develop
 
 ## 🛠️ Development
 
-### Django - Create New App
+### Spring Boot - Add Dependencies
 
+Edit `build.gradle` and run:
 ```bash
-cd django-backend
-python manage.py startapp your_app_name
+./gradlew build
 ```
 
 ### Expo - Add Dependencies
@@ -120,20 +92,12 @@ cd expo-frontend
 npm install package-name
 ```
 
-### Spring Boot - Add Dependencies
-
-Edit `build.gradle` and run:
-```bash
-./gradlew build
-```
-
 ## 📱 Testing
 
-### Django Tests
+### Spring Boot Tests
 
 ```bash
-cd django-backend
-python manage.py test
+./gradlew test
 ```
 
 ### Expo Tests
@@ -145,9 +109,7 @@ npm test
 
 ## 📦 Deployment
 
-Refer to individual README files in each directory for deployment instructions:
-- `django-backend/README.md`
-- `expo-frontend/README.md`
+Refer to `expo-frontend/README.md` for Expo deployment instructions.
 
 ## 🤝 Contributing
 

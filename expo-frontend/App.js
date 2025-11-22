@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 
-// Update this URL to match your Django backend
-const API_URL = 'http://localhost:8000/api';
+// Update this URL to match your Spring Boot backend
+const API_URL = 'http://localhost:8080';
 
 export default function App() {
   const [apiStatus, setApiStatus] = useState('Checking...');
@@ -13,8 +13,8 @@ export default function App() {
   const checkBackendHealth = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/health/`);
-      setApiStatus(`Connected: ${response.data.message}`);
+      const response = await axios.get(`${API_URL}/greeting`);
+      setApiStatus(`Connected: Spring Boot is running`);
     } catch (error) {
       setApiStatus('Backend not reachable');
       console.error('API Error:', error);
@@ -30,7 +30,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to NeatoFood</Text>
-      <Text style={styles.subtitle}>Expo + Django + Spring Boot</Text>
+      <Text style={styles.subtitle}>Expo + Spring Boot</Text>
       
       <View style={styles.statusContainer}>
         <Text style={styles.statusLabel}>Backend Status:</Text>

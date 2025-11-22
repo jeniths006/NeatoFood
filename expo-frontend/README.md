@@ -18,9 +18,9 @@ npm install
 
 2. Update API URL:
    - Edit `api/client.js` and update `API_BASE_URL`:
-     - For Android emulator: `http://10.0.2.2:8000`
-     - For iOS simulator: `http://localhost:8000`
-     - For physical device: `http://YOUR_COMPUTER_IP:8000`
+     - For Android emulator: `http://10.0.2.2:8080`
+     - For iOS simulator: `http://localhost:8080`
+     - For physical device: `http://YOUR_COMPUTER_IP:8080`
 
 3. Start the development server:
 ```bash
@@ -54,7 +54,7 @@ expo-frontend/
 
 ## Connecting to Backend
 
-Make sure your Django backend is running on port 8000 before testing the app. The app includes a health check feature to verify backend connectivity.
+Make sure your Spring Boot backend is running on port 8080 before testing the app. The app includes a health check feature to verify backend connectivity.
 
 ## Building for Production
 

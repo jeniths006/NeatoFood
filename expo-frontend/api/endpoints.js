@@ -1,8 +1,8 @@
 import api from './client';
 
-export const healthCheck = async () => {
+export const getGreeting = async () => {
   try {
-    const response = await api.get('/health/');
+    const response = await api.get('/greeting');
     return response.data;
   } catch (error) {
     throw error;
@@ -11,7 +11,7 @@ export const healthCheck = async () => {
 
 // Add more API endpoints here as you build your app
 // Example:
-// export const getMenuItems = async () => {
-//   const response = await api.get('/menu/');
+// export const getFoodPrices = async () => {
+//   const response = await api.get('/api/food-prices');
 //   return response.data;
 // };
