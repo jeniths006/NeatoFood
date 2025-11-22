@@ -1,3 +1,18 @@
+# ===========================
+# GENERAL
+# ===========================
+.DS_Store
+.env
+.vscode/
+.idea/
+*.log
+*.swp
+*.swo
+*~
+
+# ===========================
+# SPRING BOOT (Java/Gradle)
+# ===========================
 HELP.md
 .gradle
 build/
@@ -18,7 +33,6 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
 *.iws
 *.iml
 *.ipr
@@ -33,5 +47,127 @@ out/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
-.vscode/
+# Gradle
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# Java/Spring Boot
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+target/
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# ===========================
+# DJANGO (Python)
+# ===========================
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+local_settings.py
+*.pot
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+htmlcov/
+
+# ===========================
+# EXPO/REACT NATIVE (Node.js)
+# ===========================
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Metro
+.metro-health-check*
+
+# React Native
+*.hprof
+*.rej
+
+# iOS
+ios/Pods/
+ios/.xcode.env.local
+
+# Android
+android/.gradle/
+android/app/build/
+android/app/release/
+android/build/
+android/local.properties
+android/.cxx/
+*.apk
+*.aab
+
+# macOS
+.DS_Store
+
+# Watchman
+.watchmanconfig
+
+# Testing
+coverage/
